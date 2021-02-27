@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.login;
 
 /**
  *
@@ -31,18 +32,19 @@ public class Control extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Control</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Control at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        String user=request.getParameter("user");
+        String pass=request.getParameter("pass");
+        login Login =new login(user,pass);
+        if(Login.esValido()){
+        request.getSession().setAttribute("saludo", "Bienvenido usuario 123");
+        request.getSession().setAttribute("isLogin",true);
+        request.getSession().removeAttribute("error");
+        response.sendRedirect("home.jsp");
+        }
+        else{
+        request.getSession().setAttribute("error", "Contraseña/usuario errodos");
+        response.sendRedirect("index.jsp");
         }
     }
 
@@ -59,6 +61,7 @@ public class Control extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+       
     }
 
     /**

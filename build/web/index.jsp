@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+String error=(String)request.getSession().getAttribute("error");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,6 +17,9 @@
         <title>Login</title>
     </head>
     <body>
+        <%
+        if(error!=null){out.println("<h1>Error</h1>");}
+        %>
         <form action="Control" method="POST">
         
         <table border="0" align="center">
